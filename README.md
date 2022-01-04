@@ -6,7 +6,7 @@ Learning CosmWasm with [CosmWasm Dev Academy](https://docs.cosmwasm.com/fr/dev-a
 
 Requirement:
 
-* install last `Rust`: https://rustup.rs/
+* install latest `Rust`: https://rustup.rs/
 * run:
   
   ```bash
@@ -51,7 +51,7 @@ Requirement:
 wasmd --help
 ```
 
-Récupérer le fichier contenant les configurations de CosmWasm du réseau de test public `pebblenet`
+Get config file from CosmWasm public network `pebblenet` as source
 
 ```bash
 source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/pebblenet-1/defaults.env)
@@ -80,6 +80,7 @@ wasmd keys add wallet2
   pubkeys: []
 
 ```
+
 ### Get tokens from Faucet
 
 ```bash
@@ -99,4 +100,10 @@ To check the `wallet` account balance:
 
 ```bash
 wasmd query bank balances $(wasmd keys show -a wallet) $NODE
+
+> balances:
+- amount: "2000000000"
+  denom: upebble
+  pagination: {}
+
 ```
