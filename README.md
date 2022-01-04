@@ -4,7 +4,9 @@ Learning CosmWasm with [CosmWasm Dev Academy](https://docs.cosmwasm.com/fr/dev-a
 
 ## Setting up the environment
 
-There's a Gitpod solution to launch a virtual dev environment but I don't get it working, and I don't want to waste time to make it working.
+There's a Gitpod solution to launch a virtual dev environment and avoid to mess with yours.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/bortch/cosmwasm-learning)
 
 Requirement:
 
@@ -36,3 +38,20 @@ Requirement:
   # verify the installation
   wasmd version
   ```
+
+## Configuration of wasmd & Wallet
+
+`wasmd` is a fork of Gaia Daemon `gaiad` which is the Cosmos Hub (ATOM token) based on Cosmos SDK.
+[more info on Cosmos Hub](https://hub.cosmos.network/main/hub-overview/overview.html)
+
+```bash
+# more details on available action
+wasmd --help
+```
+
+Récupérer le fichier contenant les configurations de CosmWasm du réseau de test public `pebblenet`
+
+```bash
+source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/pebblenet-1/defaults.env)
+```
+
