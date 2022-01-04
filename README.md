@@ -4,10 +4,6 @@ Learning CosmWasm with [CosmWasm Dev Academy](https://docs.cosmwasm.com/fr/dev-a
 
 ## Setting up the environment
 
-There's a Gitpod solution to launch a virtual dev environment and avoid to mess with yours.
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/bortch/cosmwasm-learning)
-
 Requirement:
 
 * install last `Rust`: https://rustup.rs/
@@ -39,6 +35,12 @@ Requirement:
   wasmd version
   ```
 
+* if not already there, install
+  
+  ```bash
+  sudo apt-get install jq curl
+  ```
+
 ## Configuration of wasmd & Wallet
 
 `wasmd` is a fork of Gaia Daemon `gaiad` which is the Cosmos Hub (ATOM token) based on Cosmos SDK.
@@ -54,4 +56,47 @@ Récupérer le fichier contenant les configurations de CosmWasm du réseau de te
 ```bash
 source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/pebblenet-1/defaults.env)
 ```
+### Add a test Wallet
 
+```bash
+wasmd keys add wallet
+>
+- name: wallet
+  type: local
+  address: wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d
+  pubkey: wasmpub1addwnpepqdp65uvmmgx4wlqrcq2375pavtxs6299hutrn8el0mut9qft4wcy5e846ad
+  mnemonic: "drop excuse judge critic struggle indicate report they excess corn maximum diary eye couch term nothing frost infant engine hover silk scale violin offer"
+  threshold: 0
+  pubkeys: []
+
+wasmd keys add wallet2
+>
+- name: wallet2
+  type: local
+  address: wasm1gykjd96p5ednmv4a6vuaqjxncc9h54elu3xvuw
+  pubkey: wasmpub1addwnpepqgnym6s2tcjrr9hl2a23gz7cuxgazep5auwh2k9nay9zn5hczqnz75wkg3t
+  mnemonic: "success fame venture involve impulse view pitch soul glass excess city large fashion legend there royal citizen basket family fantasy arrive hidden butter make"
+  threshold: 0
+  pubkeys: []
+
+```
+### Get tokens from Faucet
+
+```bash
+JSON=$(jq -n --arg addr $(wasmd keys show -a wallet) '{"denom":"upebble","address":$addr}') && curl -X POST --header "Content-Type: application/json" --data "$JSON" https://faucet.pebblenet.cosmwasm.com/credit
+```
+
+### Check account balance
+
+first you need to set the following variable, otherwise you will have to define type in node, chain id and gas-prices details with every command you execute
+
+```bash
+export NODE="--node $RPC"
+export TXFLAG="${NODE} --chain-id ${CHAIN_ID} --gas-prices 0.025ubay --gas auto --gas-adjustment 1.3"
+```
+
+To check the `wallet` account balance:
+
+```bash
+wasmd query bank balances $(wasmd keys show -a wallet) $NODE
+```
