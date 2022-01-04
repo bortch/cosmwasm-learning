@@ -56,6 +56,7 @@ Get config file from CosmWasm public network `pebblenet` as source
 ```bash
 source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/pebblenet-1/defaults.env)
 ```
+
 ### Add a test Wallet
 
 ```bash
