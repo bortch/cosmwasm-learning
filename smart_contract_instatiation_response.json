@@ -1,0 +1,32 @@
+{
+  "height": "2153182",
+  "txhash": "9B0F4D2DA0293FF4C61FB8A73A66BEEA39A99A46E5FFE1666FC6F984277E3250",
+  "data": "0A3C0A0B696E7374616E7469617465122D0A2B7761736D316178716A6E7479776672377272793434336475757077767A6B663268337074656A3861687268",
+  "raw_log": "[{\"events\":[{\"type\":\"instantiate\",\"attributes\":[{\"key\":\"_contract_address\",\"value\":\"wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh\"},{\"key\":\"code_id\",\"value\":\"375\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"instantiate\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d\"}]}]}]",
+  "logs": [{
+    "events": [{
+      "type": "instantiate",
+      "attributes": [{
+        "key": "_contract_address",
+        "value": "wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh"
+      }, {
+        "key": "code_id",
+        "value": "375"
+      }]
+    }, {
+      "type": "message",
+      "attributes": [{
+        "key": "action",
+        "value": "instantiate"
+      }, {
+        "key": "module",
+        "value": "wasm"
+      }, {
+        "key": "sender",
+        "value": "wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"
+      }]
+    }]
+  }],
+  "gas_wanted": "180677",
+  "gas_used": "148754"
+}
