@@ -326,6 +326,7 @@ const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
 
 // deploy the smart contract
 const cw20 = CW20(client, uniOptions);
+// keep codeID
 const codeId = await cw20.upload(addr,uniOptions);
 console.log(`CodeId: ${codeId}`);
 // CodeId: 307
@@ -360,7 +361,7 @@ const initMsg = {
 D
 ```
 
-#### Instanciate Smart Contract
+### Instantiate Smart Contract
 
 ```javascript
 const mine = await cw20.instantiate(addr, codeId, initMsg, "MYCOIN", uniOptions);
@@ -393,4 +394,26 @@ mine.minter()
 */
 ```
 
-####
+### Mint & transfer token
+
+```javascript
+const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
+const cw20 = CW20(client, uniOptions.fees);
+
+// if you forgot your address, but remember your label, you can find it again
+// getContracts by codeID
+const codeID = 307 // from smart contract deployment
+const contracts = await client.getContracts(codeID)
+contracts
+// get address by filtering on contracts
+const contractAddress = contracts.filter(x => x.label === 'MYCOIN')[0].address;
+
+// otherwise, you can just cut and paste from before
+// const contractAddress = "juno1glnjv27xrjtshcs7legz7e50hjtqr6fpzdpgnmmqyzgzx4tgqc4qmddqap"
+
+// now, connect to that contract and make sure it is yours
+const mine = cw20.use(contractAddress);
+mine.tokenInfo()
+mine.minter()
+mine.balance(addr)
+```
