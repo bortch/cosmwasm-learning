@@ -394,26 +394,77 @@ mine.minter()
 */
 ```
 
-### Mint & transfer token
+### Playing with contract
 
 ```javascript
 const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
-const cw20 = CW20(client, uniOptions.fees);
+const cw20 = CW20(client, uniOptions);
 
 // if you forgot your address, but remember your label, you can find it again
 // getContracts by codeID
-const codeID = 307 // from smart contract deployment
-const contracts = await client.getContracts(codeID)
+const codeID = 307; // from smart contract deployment
+const contracts = await client.getContracts(codeID);
 contracts
-// get address by filtering on contracts
-const contractAddress = contracts.filter(x => x.label === 'MYCOIN')[0].address;
+//> [ 'juno1glnjv27xrjtshcs7legz7e50hjtqr6fpzdpgnmmqyzgzx4tgqc4qmddqap' ]
 
+// if more than once, get address by filtering on contracts
+// const contractAddress = contracts.filter(x => x.label === 'MYCOIN')[0].address;
+
+// else
+const contractAddress = contracts[0]
 // otherwise, you can just cut and paste from before
 // const contractAddress = "juno1glnjv27xrjtshcs7legz7e50hjtqr6fpzdpgnmmqyzgzx4tgqc4qmddqap"
 
 // now, connect to that contract and make sure it is yours
 const mine = cw20.use(contractAddress);
 mine.tokenInfo()
+/*
+{
+  name: 'My Coin',
+  symbol: 'MYCOIN',
+  decimals: 5,
+  total_supply: '123400000'
+}
+*/
 mine.minter()
+/*
+{
+  minter: 'juno16s9cq4g6zrzflmuchqn7rk5nddhad696fudtcj',
+  cap: '999900000'
+}
+*/
+mine.balance(addr)
+//> '123400000'
+```
+
+### Mine & transfer token
+
+```javascript
+// get 2 address
+const someone = "wasm13nt9rxj7v2ly096hm8qsyfjzg5pr7vn56p3cay";
+const other = "wasm1ve2n9dd4uy48hzjgx8wamkc7dp7sfdv82u585d";
+
+// right now, only you have tokens
+mine.balance(addr)
+mine.balance(someone)
+mine.balance(other)
+// and watch the total
+mine.tokenInfo()
+
+// let's mint some tokens for someone
+mine.mint(addr, someone, "999888000")
+// Bonus, take the tx hash printed out and cut-paste that into https://bigdipper.wasmnet.cosmwasm.com
+// eg 26D5514CF437EE584793768B56CB4E605F1F6E61FC0123030DC64E08E2EE97FA
+
+// See balances updated
+mine.balance(someone)
+mine.balance(addr)
+// and the supply goes up
+mine.tokenInfo()
+
+// Okay, now let's transfer some tokens... that is the more normal one, right?
+mine.transfer(addr, other, "4567000");
+// eg. 4A76EFFEB09C82D0FEB97C3B5A9D5BADB6E9BD71F4EF248A3EF8B232C2F7262A
+mine.balance(other)
 mine.balance(addr)
 ```
