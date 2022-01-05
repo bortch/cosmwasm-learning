@@ -61,57 +61,67 @@ Requirement:
 wasmd --help
 ```
 
-Get config file from CosmWasm public network `Sandynet`
+### Testnet
 
-Requirement:
+To choosing the last test network: https://github.com/CosmWasm/testnets
+
+The last one for me was `Sandynet`
+
+Requirement were:
 
 * go version: 1.17.3
 * wasmd version: v0.21.0
 * CosmJS version: v0.26.0
 
+Get config file from CosmWasm public test network:
+
 ```bash
 source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/sandynet-1/defaults.env)
+```
+
+### Set env variables
+
+first you need to set the following variable, otherwise you will have to define type in node, chain id and gas-prices details with every command you execute
+
+Make sure that the type of fees corresponds to the chosen testnet, for sandynet its defined as `ujunox`
+
+```bash
+export NODE="--node $RPC"
+export TXFLAG="${NODE} --chain-id ${CHAIN_ID} --gas-prices 0.025ujunox --gas auto --gas-adjustment 1.3"
 ```
 
 ### Add a test Wallet
 
 ```bash
 wasmd keys add wallet
->
-- name: wallet
-  type: local
-  address: wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d
-  pubkey: wasmpub1addwnpepqdp65uvmmgx4wlqrcq2375pavtxs6299hutrn8el0mut9qft4wcy5e846ad
-  mnemonic: "drop excuse judge critic struggle indicate report they excess corn maximum diary eye couch term nothing frost infant engine hover silk scale violin offer"
-  threshold: 0
-  pubkeys: []
+#>
+#- name: wallet
+#  type: local
+#  address: wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d
+#  pubkey: wasmpub1addwnpepqdp65uvmmgx4wlqrcq2375pavtxs6299hutrn8el0mut9qft4wcy5e846ad
+#  mnemonic: "drop excuse judge critic struggle indicate report they excess corn maximum diary eye couch term nothing frost infant engine hover silk scale violin offer"
+#  threshold: 0
+#  pubkeys: []
 
 wasmd keys add wallet2
->
-- name: wallet2
-  type: local
-  address: wasm1gykjd96p5ednmv4a6vuaqjxncc9h54elu3xvuw
-  pubkey: wasmpub1addwnpepqgnym6s2tcjrr9hl2a23gz7cuxgazep5auwh2k9nay9zn5hczqnz75wkg3t
-  mnemonic: "success fame venture involve impulse view pitch soul glass excess city large fashion legend there royal citizen basket family fantasy arrive hidden butter make"
-  threshold: 0
-  pubkeys: []
+#>
+#- name: wallet2
+#  type: local
+#  address: wasm1gykjd96p5ednmv4a6vuaqjxncc9h54elu3xvuw
+#  pubkey: wasmpub1addwnpepqgnym6s2tcjrr9hl2a23gz7cuxgazep5auwh2k9nay9zn5hczqnz75wkg3t
+#  mnemonic: "success fame venture involve impulse view pitch soul glass excess city large fashion legend there royal citizen basket family fantasy arrive hidden butter make"
+#  threshold: 0
+#  pubkeys: []
 
 ```
 
 ### Get tokens from Faucet
 
 ```bash
-JSON=$(jq -n --arg addr $(wasmd keys show -a wallet) '{"denom":"ubay","address":$addr}') && curl -X POST --header "Content-Type: application/json" --data "$JSON" https://faucet.sandynet.cosmwasm.com/credit
+JSON=$(jq -n --arg addr $(wasmd keys show -a wallet) '{"denom":"ujunox","address":$addr}') && curl -X POST --header "Content-Type: application/json" --data "$JSON" https://faucet.sandynet.cosmwasm.com/credit
 ```
 
 ### Check account balance
-
-first you need to set the following variable, otherwise you will have to define type in node, chain id and gas-prices details with every command you execute
-
-```bash
-export NODE="--node $RPC"
-export TXFLAG="${NODE} --chain-id ${CHAIN_ID} --gas-prices 0.025ubay --gas auto --gas-adjustment 1.3"
-```
 
 To check the `wallet` account balance:
 
@@ -120,7 +130,7 @@ wasmd query bank balances $(wasmd keys show -a wallet) $NODE
 
 > balances:
 - amount: "2000000000"
-  denom: ubay
+  denom: ujunox
   pagination: {}
 
 ```
@@ -185,7 +195,7 @@ INIT=$(jq -n --arg wallet $(wasmd keys show -a wallet) '{"name":"Golden Stars","
 wasmd tx wasm instantiate $CODE_ID "$INIT" --from wallet $TXFLAG --label "first cw20"
 
 > gas estimate: 180677
-{"body":{"messages":[{"@type":"/cosmwasm.wasm.v1.MsgInstantiateContract","sender":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","admin":"","code_id":"375","label":"first cw20","msg":{"name":"Golden Stars","symbol":"STAR","decimals":2,"initial_balances":[{"address":"wasm1n8aqd9jq9glhj87cn0nkmd5mslz3df8zm86hrh","amount":"10000"},{"address":"wasm13y4tpsgxza44yq76qvj69sakq4jmeyqudwgwpk","amount":"10000"},{"address":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","amount":"10000"}],"mint":{"minter":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"}},"funds":[]}],"memo":"","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[],"fee":{"amount":[{"denom":"ubay","amount":"4517"}],"gas_limit":"180677","payer":"","granter":""}},"signatures":[]}
+{"body":{"messages":[{"@type":"/cosmwasm.wasm.v1.MsgInstantiateContract","sender":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","admin":"","code_id":"375","label":"first cw20","msg":{"name":"Golden Stars","symbol":"STAR","decimals":2,"initial_balances":[{"address":"wasm1n8aqd9jq9glhj87cn0nkmd5mslz3df8zm86hrh","amount":"10000"},{"address":"wasm13y4tpsgxza44yq76qvj69sakq4jmeyqudwgwpk","amount":"10000"},{"address":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","amount":"10000"}],"mint":{"minter":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"}},"funds":[]}],"memo":"","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[],"fee":{"amount":[{"denom":"ujunox","amount":"4517"}],"gas_limit":"180677","payer":"","granter":""}},"signatures":[]}
 
 > confirm transaction before signing and broadcasting [y/N]: y
 {"height":"2153182","txhash":"9B0F4D2DA0293FF4C61FB8A73A66BEEA39A99A46E5FFE1666FC6F984277E3250","data":"0A3C0A0B696E7374616E7469617465122D0A2B7761736D316178716A6E7479776672377272793434336475757077767A6B663268337074656A3861687268","raw_log":"[{\"events\":[{\"type\":\"instantiate\",\"attributes\":[{\"key\":\"_contract_address\",\"value\":\"wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh\"},{\"key\":\"code_id\",\"value\":\"375\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"instantiate\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d\"}]}]}]","logs":[{"events":[{"type":"instantiate","attributes":[{"key":"_contract_address","value":"wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh"},{"key":"code_id","value":"375"}]},{"type":"message","attributes":[{"key":"action","value":"instantiate"},{"key":"module","value":"wasm"},{"key":"sender","value":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"}]}]}],"gas_wanted":"180677","gas_used":"148754"}
@@ -254,7 +264,9 @@ check dockstring from https://raw.githubusercontent.com/InterWasm/cw-plus-helper
 for interface
 
 check https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts
+
 for:
+
 * option name: `uniOptions` for sandynet-1 
 * `feeToken`'s name: `'ujunox'` for sandynet-1
 
@@ -262,7 +274,7 @@ for:
 
 ```javascript
 const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
-//> Getting ubay from faucet
+//> Getting ujunox from faucet
 ```
 
 #### Address info
