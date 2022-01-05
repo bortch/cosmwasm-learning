@@ -1,10 +1,14 @@
-# CosmWasm Dev Academy
+# CosmWasm, wasmd, cosmJS
 
-Learning CosmWasm with [CosmWasm Dev Academy](https://docs.cosmwasm.com/fr/dev-academy/intro)
+## Learning Sources
 
-By the time I went through the tutorial, some updates had taken place. The tutorial was no longer very functional.
+CosmWasm website has the [CosmWasm Dev Academy](https://docs.cosmwasm.com/fr/dev-academy/intro)
 
-As this changes quite rapidly, here are the versions used:
+By the time I went through the tutorial, some updates had taken place. 
+
+The tutorial was no longer fully functional as is.
+
+As the whole thing changes quite rapidly, here are the versions I've used:
 
 * rustc: 1.57.0
 * go: 1.17.5 linux/amd64
@@ -51,7 +55,7 @@ Requirement:
   sudo apt-get install jq curl
   ```
 
-## Configuration of wasmd & wallets
+## Configuration of wasmd
 
 `wasmd` is a fork of Gaia Daemon `gaiad` which is the Cosmos Hub (ATOM token) based on Cosmos SDK.
 [more info on Cosmos Hub](https://hub.cosmos.network/main/hub-overview/overview.html)
@@ -90,7 +94,9 @@ export NODE="--node $RPC"
 export TXFLAG="${NODE} --chain-id ${CHAIN_ID} --gas-prices 0.025ujunox --gas auto --gas-adjustment 1.3"
 ```
 
-### Add a test Wallet
+## Playing with wasmd
+
+### Create a wallet
 
 ```bash
 wasmd keys add wallet
