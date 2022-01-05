@@ -212,11 +212,61 @@ Success JSON response
 }
 ```
 
-Check if we can find the contract
+Now we can find the contract:
 
 ```bash
 wasmd query wasm list-contract-by-code $CODE_ID $NODE --output json
-
 > {"contracts":["wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh"],"pagination":{}}
+```
 
+## Using CosmJS - REPL client
+
+Retry from start using CosmJS CLI
+
+### install & launch CosmJS
+
+NodeJS required
+
+```bash
+npx @cosmjs/cli@^0.26 --init https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts --init https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/cw20-base.ts
+```
+
+### Create a wallet
+
+
+```javascript
+const [addr, client] = await useOptions(pebblenetOptions).setup(YOUR_PASSWORD_HERE);
+> Getting upebble from faucet
+```
+
+#### Address info
+
+```javascript
+client.getAccount(addr);
+```
+
+it will show something like
+
+```javascript
+{
+  address: 'wasm1euf9qpj7nvdu9w5swu0mvhwtgcnek528trs2lk',
+  pubkey: null,
+  accountNumber: 994,
+  sequence: 0
+}
+```
+
+#### Mnemonic
+
+```javascript
+//to get the Mnemonic
+useOptions(pebblenetOptions).recoverMnemonic(YOUR_PASSWORD_HERE)
+> 'excess amount hundred goose hope veteran crowd captain fossil merry cross quiz'
+```
+
+#### Balance
+
+```javascript
+client.getBalance(addr,'upebble')
+> { denom: 'upebble', amount: '2000000000' }
 ```
