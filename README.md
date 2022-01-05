@@ -257,16 +257,16 @@ NodeJS required
 npx @cosmjs/cli@^0.26 --init https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts --init https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/cw20-base.ts
 ```
 
-
 ### Details
 
-check dockstring from https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/cw20-base.ts
-for interface
+to get implementation details check docstring from :
 
-check https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts
+* https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/cw20-base.ts
+* https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts
 
-for:
+They contain, among other things:
 
+* methods names
 * option name: `uniOptions` for sandynet-1 
 * `feeToken`'s name: `'ujunox'` for sandynet-1
 
@@ -283,7 +283,7 @@ const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
 client.getAccount(addr);
 ```
 
-it will show something like
+It will show something like:
 
 ```javascript
 {
@@ -295,7 +295,6 @@ it will show something like
   accountNumber: 52949,
   sequence: 1
 }
-
 ```
 
 #### Mnemonic
