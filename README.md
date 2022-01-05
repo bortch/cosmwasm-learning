@@ -2,6 +2,16 @@
 
 Learning CosmWasm with [CosmWasm Dev Academy](https://docs.cosmwasm.com/fr/dev-academy/intro)
 
+By the time I went through the tutorial, some updates had taken place. The tutorial was no longer very functional.
+
+As this changes quite rapidly, here are the versions used:
+
+* rustc: 1.57.0
+* go: 1.17.5 linux/amd64
+* wasmd: v0.21.0
+* testnet: Sandynet-1
+* CosmJS: v0.26.0
+
 ## Setting up the environment
 
 Requirement:
@@ -41,7 +51,7 @@ Requirement:
   sudo apt-get install jq curl
   ```
 
-## Configuration of wasmd & Wallet
+## Configuration of wasmd & wallets
 
 `wasmd` is a fork of Gaia Daemon `gaiad` which is the Cosmos Hub (ATOM token) based on Cosmos SDK.
 [more info on Cosmos Hub](https://hub.cosmos.network/main/hub-overview/overview.html)
@@ -51,10 +61,16 @@ Requirement:
 wasmd --help
 ```
 
-Get config file from CosmWasm public network `pebblenet` as source
+Get config file from CosmWasm public network `Sandynet`
+
+Requirement:
+
+* go version: 1.17.3
+* wasmd version: v0.21.0
+* CosmJS version: v0.26.0
 
 ```bash
-source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/pebblenet-1/defaults.env)
+source <(curl -sSL https://raw.githubusercontent.com/CosmWasm/testnets/master/sandynet-1/defaults.env)
 ```
 
 ### Add a test Wallet
@@ -85,7 +101,7 @@ wasmd keys add wallet2
 ### Get tokens from Faucet
 
 ```bash
-JSON=$(jq -n --arg addr $(wasmd keys show -a wallet) '{"denom":"upebble","address":$addr}') && curl -X POST --header "Content-Type: application/json" --data "$JSON" https://faucet.pebblenet.cosmwasm.com/credit
+JSON=$(jq -n --arg addr $(wasmd keys show -a wallet) '{"denom":"ubay","address":$addr}') && curl -X POST --header "Content-Type: application/json" --data "$JSON" https://faucet.sandynet.cosmwasm.com/credit
 ```
 
 ### Check account balance
@@ -94,7 +110,7 @@ first you need to set the following variable, otherwise you will have to define 
 
 ```bash
 export NODE="--node $RPC"
-export TXFLAG="${NODE} --chain-id ${CHAIN_ID} --gas-prices 0.025upebble --gas auto --gas-adjustment 1.3"
+export TXFLAG="${NODE} --chain-id ${CHAIN_ID} --gas-prices 0.025ubay --gas auto --gas-adjustment 1.3"
 ```
 
 To check the `wallet` account balance:
@@ -104,7 +120,7 @@ wasmd query bank balances $(wasmd keys show -a wallet) $NODE
 
 > balances:
 - amount: "2000000000"
-  denom: upebble
+  denom: ubay
   pagination: {}
 
 ```
@@ -169,7 +185,7 @@ INIT=$(jq -n --arg wallet $(wasmd keys show -a wallet) '{"name":"Golden Stars","
 wasmd tx wasm instantiate $CODE_ID "$INIT" --from wallet $TXFLAG --label "first cw20"
 
 > gas estimate: 180677
-{"body":{"messages":[{"@type":"/cosmwasm.wasm.v1.MsgInstantiateContract","sender":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","admin":"","code_id":"375","label":"first cw20","msg":{"name":"Golden Stars","symbol":"STAR","decimals":2,"initial_balances":[{"address":"wasm1n8aqd9jq9glhj87cn0nkmd5mslz3df8zm86hrh","amount":"10000"},{"address":"wasm13y4tpsgxza44yq76qvj69sakq4jmeyqudwgwpk","amount":"10000"},{"address":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","amount":"10000"}],"mint":{"minter":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"}},"funds":[]}],"memo":"","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[],"fee":{"amount":[{"denom":"upebble","amount":"4517"}],"gas_limit":"180677","payer":"","granter":""}},"signatures":[]}
+{"body":{"messages":[{"@type":"/cosmwasm.wasm.v1.MsgInstantiateContract","sender":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","admin":"","code_id":"375","label":"first cw20","msg":{"name":"Golden Stars","symbol":"STAR","decimals":2,"initial_balances":[{"address":"wasm1n8aqd9jq9glhj87cn0nkmd5mslz3df8zm86hrh","amount":"10000"},{"address":"wasm13y4tpsgxza44yq76qvj69sakq4jmeyqudwgwpk","amount":"10000"},{"address":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d","amount":"10000"}],"mint":{"minter":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"}},"funds":[]}],"memo":"","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[],"fee":{"amount":[{"denom":"ubay","amount":"4517"}],"gas_limit":"180677","payer":"","granter":""}},"signatures":[]}
 
 > confirm transaction before signing and broadcasting [y/N]: y
 {"height":"2153182","txhash":"9B0F4D2DA0293FF4C61FB8A73A66BEEA39A99A46E5FFE1666FC6F984277E3250","data":"0A3C0A0B696E7374616E7469617465122D0A2B7761736D316178716A6E7479776672377272793434336475757077767A6B663268337074656A3861687268","raw_log":"[{\"events\":[{\"type\":\"instantiate\",\"attributes\":[{\"key\":\"_contract_address\",\"value\":\"wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh\"},{\"key\":\"code_id\",\"value\":\"375\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"instantiate\"},{\"key\":\"module\",\"value\":\"wasm\"},{\"key\":\"sender\",\"value\":\"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d\"}]}]}]","logs":[{"events":[{"type":"instantiate","attributes":[{"key":"_contract_address","value":"wasm1axqjntywfr7rry443duupwvzkf2h3ptej8ahrh"},{"key":"code_id","value":"375"}]},{"type":"message","attributes":[{"key":"action","value":"instantiate"},{"key":"module","value":"wasm"},{"key":"sender","value":"wasm1a555386zdv895w0jn7lfzfjjwkpgsnhjvq6j3d"}]}]}],"gas_wanted":"180677","gas_used":"148754"}
@@ -231,12 +247,22 @@ NodeJS required
 npx @cosmjs/cli@^0.26 --init https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts --init https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/cw20-base.ts
 ```
 
+
+### Details
+
+check dockstring from https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/cw20-base.ts
+for interface
+
+check https://raw.githubusercontent.com/InterWasm/cw-plus-helpers/main/base.ts
+for:
+* option name: `uniOptions` for sandynet-1 
+* `feeToken`'s name: `'ujunox'` for sandynet-1
+
 ### Create a wallet
 
-
 ```javascript
-const [addr, client] = await useOptions(pebblenetOptions).setup(YOUR_PASSWORD_HERE);
-> Getting upebble from faucet
+const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
+//> Getting ubay from faucet
 ```
 
 #### Address info
@@ -249,24 +275,105 @@ it will show something like
 
 ```javascript
 {
-  address: 'wasm1euf9qpj7nvdu9w5swu0mvhwtgcnek528trs2lk',
-  pubkey: null,
-  accountNumber: 994,
-  sequence: 0
+  address: 'juno16s9cq4g6zrzflmuchqn7rk5nddhad696fudtcj',
+  pubkey: {
+    type: 'tendermint/PubKeySecp256k1',
+    value: 'Al2iFzOASuyHNqpVTe1HL3HZRjLXpQHZzfuU8rahy0kD'
+  },
+  accountNumber: 52949,
+  sequence: 1
 }
+
 ```
 
 #### Mnemonic
 
 ```javascript
 //to get the Mnemonic
-useOptions(pebblenetOptions).recoverMnemonic(YOUR_PASSWORD_HERE)
-> 'excess amount hundred goose hope veteran crowd captain fossil merry cross quiz'
+useOptions(uniOptions).recoverMnemonic(YOUR_PASSWORD_HERE)
+//> 'web vague cattle sauce poet snow shadow cause once case gather foster'
 ```
 
 #### Balance
 
 ```javascript
-client.getBalance(addr,'upebble')
-> { denom: 'upebble', amount: '2000000000' }
+client.getBalance(addr,'ujunox')
+//> { denom: 'ujunox', amount: '2000000000' }
 ```
+
+### Deploy a Smart Contract
+
+```javascript
+// always start with setting client and address
+const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
+
+// deploy the smart contract
+const cw20 = CW20(client, uniOptions);
+const codeId = await cw20.upload(addr,uniOptions);
+console.log(`CodeId: ${codeId}`);
+// CodeId: 307
+```
+
+The smart contract isn't yet instantiated
+
+### Set Smart Contract instance params
+
+```javascript
+// enable REPL editor mode to edit multiline code then execute
+.editor
+
+// define smart contract instance parameters
+const initMsg = {
+  name: "My Coin",
+  symbol: "MYCOIN",
+  decimals: 5, // divide amount by 10^{decimals}
+
+  // list of all validator self-delegate addresses - 100 STARs each!
+  initial_balances: [
+    {address: addr, amount: "123400000"},
+  ],
+  mint: {
+    minter: addr,
+    cap:"999900000"
+  },
+};
+
+// exit editor using `^D` and execute entered code
+^
+D
+```
+
+#### Instanciate Smart Contract
+
+```javascript
+const mine = await cw20.instantiate(addr, codeId, initMsg, "MYCOIN", uniOptions);
+console.log(`Contract: ${mine.contractAddress}`);
+// Contract: juno1glnjv27xrjtshcs7legz7e50hjtqr6fpzdpgnmmqyzgzx4tgqc4qmddqap
+
+console.log(await mine.balance(mine.contractAddress));
+// 0
+
+// now, check the configuration
+mine.balance(addr);
+//> '123400000'
+
+mine.tokenInfo()
+/*
+{
+  name: 'My Coin',
+  symbol: 'MYCOIN',
+  decimals: 5,
+  total_supply: '123400000'
+}
+*/
+
+mine.minter()
+/*
+{
+  minter: 'juno16s9cq4g6zrzflmuchqn7rk5nddhad696fudtcj',
+  cap: '999900000'
+}
+*/
+```
+
+####
