@@ -279,7 +279,8 @@ They contain, among other things:
 ### Create a wallet
 
 ```javascript
-const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
+let PASSWORD = "YOUR_PASSWORD_HERE";
+const [addr, client] = await useOptions(uniOptions).setup(PASSWORD);
 //> Getting ujunox from faucet
 ```
 
@@ -307,7 +308,7 @@ It will show something like:
 
 ```javascript
 //to get the Mnemonic
-useOptions(uniOptions).recoverMnemonic(YOUR_PASSWORD_HERE)
+useOptions(uniOptions).recoverMnemonic(PASSWORD)
 //> 'web vague cattle sauce poet snow shadow cause once case gather foster'
 ```
 
@@ -322,7 +323,8 @@ client.getBalance(addr,'ujunox')
 
 ```javascript
 // always start with setting client and address
-const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
+let PASSWORD = "YOUR_PASSWORD_HERE";
+const [addr, client] = await useOptions(uniOptions).setup(PASSWORD);
 
 // deploy the smart contract
 const cw20 = CW20(client, uniOptions);
@@ -332,7 +334,7 @@ console.log(`CodeId: ${codeId}`);
 // CodeId: 307
 ```
 
-The smart contract isn't yet instantiated
+The smart contract is created and uploaded, but isn't yet instantiated
 
 ### Set Smart Contract instance params
 
@@ -355,10 +357,7 @@ const initMsg = {
     cap:"999900000"
   },
 };
-
-// exit editor using `^D` and execute entered code
-^
-D
+// exit editor using `ctrl+D` and execute entered code
 ```
 
 ### Instantiate Smart Contract
@@ -397,7 +396,8 @@ mine.minter()
 ### Playing with contract
 
 ```javascript
-const [addr, client] = await useOptions(uniOptions).setup(YOUR_PASSWORD_HERE);
+let PASSWORD = "YOUR_PASSWORD_HERE";
+const [addr, client] = await useOptions(uniOptions).setup(PASSWORD);
 const cw20 = CW20(client, uniOptions);
 
 // if you forgot your address, but remember your label, you can find it again
